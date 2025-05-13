@@ -9,40 +9,43 @@ export default class Queue<T> {
   private tail?: Node<T>;
 
   constructor() {
+    this.head = this.tail = undefined;
     this.length = 0;
-    this.head = undefined;
-    this.tail = undefined;
   }
 
   enqueue(item: T): void {
-    this.length += 1;
-    if (this.head === undefined || this.tail === undefined) {
-      this.head = { value: item, next: undefined };
-      this.tail = this.head;
+    const node = { value: item } as Node<T>;
+    this.length++;
+    if (!this.tail) {
+      this.tail = this.head = node;
       return;
     }
 
-    const node = { value: item, next: undefined };
     this.tail.next = node;
     this.tail = node;
   }
 
   deque(): T | undefined {
-    if (this.head === undefined) {
+    if (!this.head) {
       return undefined;
     }
 
-    const val = this.head.value;
+    this.length--;
+
+    const head = this.head;
     this.head = this.head.next;
-    this.length -= 1;
-    return val;
+
+    // Free memory
+    head.next = undefined;
+
+    if (this.length === 0) {
+      this.tail = undefined;
+    }
+
+    return head.value;
   }
 
   peek(): T | undefined {
-    if (this.head === undefined) {
-      return undefined;
-    }
-
-    return this.head.value;
+    return this.head?.value;
   }
 }
