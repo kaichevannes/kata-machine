@@ -1,7 +1,10 @@
 export function test_list(list: List<number>): void {
   list.append(5);
+  console.log(list.length);
   list.append(7);
+  console.log(list.length);
   list.append(9);
+  console.log(list.length);
 
   expect(list.get(2)).toEqual(9);
   expect(list.removeAt(1)).toEqual(7);
