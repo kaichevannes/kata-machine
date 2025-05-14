@@ -44,7 +44,6 @@ function walk(maze: string[], wall: string, curr: Point, end: Point, seen: boole
 
   // post
   path.pop();
-
   return false;
 }
 
