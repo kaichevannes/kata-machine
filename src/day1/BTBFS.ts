@@ -1,18 +1,18 @@
 export default function bfs(head: BinaryNode<number>, needle: number): boolean {
-  let nodes = [head];
+  let queue = [head];
 
-  while (nodes.length > 0) {
-    const node = nodes.shift() as BinaryNode<number>;
+  while (queue.length) {
+    const curr = queue.shift() as BinaryNode<number>;
 
-    if (node.value === needle) {
+    if (curr.value === needle) {
       return true;
     }
 
-    if (node.left) {
-      nodes.unshift(node.left);
+    if (curr.left) {
+      queue.unshift(curr.left);
     }
-    if (node.right) {
-      nodes.unshift(node.right);
+    if (curr.right) {
+      queue.unshift(curr.right);
     }
   }
 
