@@ -3,8 +3,8 @@ export default class MinHeap {
   private data: number[];
 
   constructor() {
-    this.length = 0;
     this.data = [];
+    this.length = 0;
   }
 
   insert(value: number): void {
@@ -13,7 +13,7 @@ export default class MinHeap {
     // bubble up
     let i = this.length;
     while (i > 0) {
-      let j = Math.floor((i - 1) / 2); // parent
+      let j = this.parent(i); // parent
 
       if (this.data[i] >= this.data[j]) {
         break;
@@ -36,8 +36,8 @@ export default class MinHeap {
     // bubble down
     let i = 0;
     while (i < this.length) {
-      let leftChildIndex = 2 * i + 1; // child
-      let rightChildIndex = 2 * i + 2;
+      let leftChildIndex = this.leftChild(i);
+      let rightChildIndex = this.rightChild(i);
 
       if (!this.data[leftChildIndex]) {
         break;
@@ -66,5 +66,17 @@ export default class MinHeap {
 
     this.length--;
     return result;
+  }
+
+  private parent(idx: number): number {
+    return Math.floor((idx - 1) / 2)
+  }
+
+  private leftChild(idx: number): number {
+    return 2 * idx + 1;
+  }
+
+  private rightChild(idx: number): number {
+    return 2 * idx + 2;
   }
 }
