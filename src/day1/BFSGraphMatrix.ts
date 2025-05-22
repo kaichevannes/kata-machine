@@ -1,27 +1,27 @@
 export default function bfs(graph: WeightedAdjacencyMatrix, source: number, needle: number): number[] | null {
-  let prev = new Array(graph[0].length).fill(-1);
-  let seen = new Array(graph[0].length).fill(false);
+  let prev = new Array(graph.length).fill(-1);
+  let seen = new Array(graph.length).fill(false);
+
   seen[source] = true;
   let Q = [source];
 
-  outer:
   while (Q.length) {
     const curr = Q.shift() as number;
 
-    for (let maybeNode = 0; maybeNode < graph[curr].length; ++maybeNode) {
-      if (graph[curr][maybeNode] === 0 || seen[maybeNode]) {
+    if (curr === needle) {
+      break;
+    }
+
+    const adjs = graph[curr]
+    for (let i = 0; i < adjs.length; ++i) {
+      if (adjs[i] === 0 || seen[i]) {
         continue;
       }
-      const connectedNode = maybeNode;
 
-      prev[connectedNode] = curr;
-      Q.unshift(connectedNode);
-
-      if (connectedNode === needle) {
-        break outer;
-      }
+      seen[i] = true;
+      prev[i] = curr;
+      Q.unshift(i);
     }
-    seen[curr] = true;
   }
 
   if (prev[needle] === -1) {
@@ -30,10 +30,9 @@ export default function bfs(graph: WeightedAdjacencyMatrix, source: number, need
 
   let path = [needle];
   let curr = needle;
-  do {
+  while (prev[curr] !== -1) {
     path.unshift(prev[curr]);
     curr = prev[curr];
   }
-  while (prev[curr] !== -1)
   return path;
 }
